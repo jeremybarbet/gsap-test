@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { TimelineLite } from 'gsap/all';
+import { TimelineLite } from 'gsap';
 import { add } from 'gsap-tools';
 
 import './Example1.css';
