@@ -1,0 +1,38 @@
+.app {
+  margin: 10px;
+
+  height: 100vh;
+}
+
+.box {
+  position: relative;
+
+  display: block;
+
+  margin-bottom: 10px;
+
+  width: 80px;
+  height: 80px;
+
+  border-radius: 4px;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.purple {
+  background-color: purple;
+}
