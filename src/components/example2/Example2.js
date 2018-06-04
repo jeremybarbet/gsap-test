@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react';
-import { TweenLite, TweenMax, TimelineMax, TimelineLite, Power1, Power2, Linear, Power4, SlowMo, Elastic, Back, Bounce, SplitText, RoughEase } from 'gsap';
+import { TweenLite, TweenMax, TimelineMax, TimelineLite, Power1, Power2, Linear, Power4, SlowMo, Elastic, Back, Bounce, RoughEase } from 'gsap';
+import { add } from 'gsap-tools';
+import $ from 'jquery';
 
 import './Example2.css';
 
-const $ = el => document.querySelector(el);
+window.jQuery = window.$ = $;
 
 export default class Example2 extends PureComponent {
+
+  componentDidMount() {
+    setTimeout(this.animate, 800);
+  }
 
   animate = () => {
     const master = new TimelineMax({ delay: 1.2, id: 'Hero Animation' });
@@ -15,7 +21,8 @@ export default class Example2 extends PureComponent {
     const radius = Math.max(centerX, centerY) + 50;
     const slider = $('#ctrl_slider');
     const sliderValue = { value: 0 };
-    const _isOldIE = (document.all && !document.addEventListener);
+    // const _isOldIE = (document.all && !document.addEventListener);
+    const _isOldIE = true;
 
     TweenLite.set('#featureAnimation, #featureBox, #violator', { left: '50%', x: 0, xPercent: -50 });
     TweenLite.set('#featureAnimation', { perspective: 700, visibility: 'visible' });
@@ -24,8 +31,8 @@ export default class Example2 extends PureComponent {
     function whyGSAP() {
       var tl = new TimelineLite({id:'Why GSAP?'}),
           text = $('#whyGSAP'),
-          split = new SplitText('#whyGSAP', { type:'chars,words' }),
-          chars = split.chars,
+          split = 'whyGSAP',
+          chars = split,
           centerIndex = Math.floor(chars.length / 2),
           i;
       for (i = 0; i < chars.length; i++) {
@@ -85,7 +92,7 @@ export default class Example2 extends PureComponent {
           iconTimeline = new TimelineMax({repeat:1}),
           icons = $('#browserIcons img'),
           text = $('#compatibility'),
-          split = new SplitText(text, {split:'chars', absolute:true}),
+          split = 'compatibility',
           rough = RoughEase.ease.config({strength:2, clamp:true}),
           i;
       for (i = 0; i < icons.length; i++) {
@@ -96,11 +103,11 @@ export default class Example2 extends PureComponent {
       tl.add(iconTimeline, 0);
       tl.fromTo('#browserIcons', 2.8, {transformOrigin:'center -160px', rotation:170, z:0.1}, {rotation:0, ease:Elastic.easeOut}, 0);
       tl.set(text, {y: centerY-35, x:10, autoAlpha:1}, 0);
-      for (i = 0; i < split.chars.length; i++) {
-        tl.fromTo(split.chars[i], 2.4, {transformOrigin:'center -160px', z:0.1, rotation:((Math.random() < 0.5) ? 90 : -90)}, {rotation:0, ease:Elastic.easeOut}, 0.3 + i * 0.06);
+      for (i = 0; i < split.length; i++) {
+        tl.fromTo(split[i], 2.4, {transformOrigin:'center -160px', z:0.1, rotation:((Math.random() < 0.5) ? 90 : -90)}, {rotation:0, ease:Elastic.easeOut}, 0.3 + i * 0.06);
 
-        tl.to(split.chars[i], 0.6, {y:97, ease:Bounce.easeOut}, 3.4 + Math.random() * 0.6);
-        tl.to(split.chars[i], 0.6, {autoAlpha:0, ease:rough}, 4.5 + Math.random());
+        tl.to(split[i], 0.6, {y:97, ease:Bounce.easeOut}, 3.4 + Math.random() * 0.6);
+        tl.to(split[i], 0.6, {autoAlpha:0, ease:rough}, 4.5 + Math.random());
       }
       TweenLite.set('#fallDown', {width:420, left:300, top:-35, autoAlpha:0, textAlign:'left'});
       tl.to('#fallDown', 0.5, {top:81, autoAlpha:1, ease:Back.easeOut}, 3.9);
@@ -111,14 +118,14 @@ export default class Example2 extends PureComponent {
 
     function transforms() {
       var tl = new TimelineLite({id:'Transforms'}),
-          split = new SplitText('#transform', {split:'words', absolute:true}),
+          split = 'Transforms',
           box = document.getElementById('transformBox'),
           transformSub = document.getElementById('transformSub'),
-          scale = split.words[0],
-          rotate = split.words[1],
-          move = [split.words[2], split.words[3]],
-          independently = split.words[4];
-      TweenLite.set(split.words, {autoAlpha:0, rotationX:-90});
+          scale = split[0],
+          rotate = split[1],
+          move = [split[2], split[3]],
+          independently = split[4];
+      TweenLite.set(split, {autoAlpha:0, rotationX:-90});
       TweenLite.set(box, {scale:0.1, rotation:0.1, autoAlpha:0});
       tl.to(box, 0.3, {autoAlpha:1});
       tl.to(box, 7, {scale:1, ease:Linear.easeNone, autoRound:false}, 0);
@@ -132,7 +139,7 @@ export default class Example2 extends PureComponent {
       tl.to(box, 3, {rotationX:360, ease:Elastic.easeOut}, 3.5);
       tl.from(transformSub, 0.5, {top:'-=16', autoAlpha:0}, 4.5);
       tl.to([transformSub, box], 0.5, {autoAlpha:0}, 7.4);
-      tl.staggerTo(split.words.slice(0, 4), 0.5, {rotationX:90, autoAlpha:0}, 0.2, 7);
+      tl.staggerTo(split.slice(0, 4), 0.5, {rotationX:90, autoAlpha:0}, 0.2, 7);
       tl.to(independently, 0.5, {rotationX:-90, autoAlpha:0}, 7.3);
       return tl;
     }
@@ -160,12 +167,12 @@ export default class Example2 extends PureComponent {
           colors = ['#91e600','#84d100','#73b403','#528003'],
           startVars = {css:{}},
           initialVars = {css:{borderRadius:'50%', width:100, z:0.1}, immediateRender:true},
-          split = new SplitText('#controlSub', {split:'words', absolute:'true'}),
-          pause = split.words[0],
-          play = split.words[1],
-          reverse = split.words[2],
-          timeScale = [split.words[3], split.words[4]],
-          subEnd = [split.words[5], split.words[6], split.words[7], split.words[8]],
+          split = 'controlSub',
+          pause = split[0],
+          play = split[1],
+          reverse = split[2],
+          timeScale = [split[3], split[4]],
+          subEnd = [split[5], split[6], split[7], split[8]],
           dot, i, delay;
       startVars.css[xProp] = initialVars.css[xProp] = 680;
       startVars.css[yProp] = initialVars.css[yProp] = 220;
@@ -197,20 +204,18 @@ export default class Example2 extends PureComponent {
     function newStandard() {
       var tl = new TimelineLite(),
           GSAP = document.getElementById('GSAP'),
-          split = new SplitText(GSAP, {type:'chars', position:'absolute'}),
-          chars = split.chars,
+          split = 'GreenSock Animation Platform',
+          chars = split,
           positions = [chars[0].offsetLeft],
           i, xOffset;
       positions[5] = chars[1].offsetLeft;
       positions[9] = chars[2].offsetLeft;
       positions[18] = chars[3].offsetLeft;
-      split.revert();
       GSAP.innerHTML = 'GreenSock Animation Platform';
-      split.split({type:'words,chars'});
-      tl.staggerFrom(split.words, 1.5, {z:-1000, autoAlpha:0, ease:Power1.easeOut}, 0.3);
+      tl.staggerFrom(split, 1.5, {z:-1000, autoAlpha:0, ease:Power1.easeOut}, 0.3);
       tl.from('#newStandardText', 1, {autoAlpha:0});
       if (!_isOldIE) {
-        chars = split.chars;
+        chars = split;
         for (i = 0; i < chars.length; i++) {
           TweenLite.set(chars[i], {force3D:true});
           if (positions[i]) {
@@ -248,12 +253,14 @@ export default class Example2 extends PureComponent {
 
     // build master timeline with nested scenes...
     master.add(whyGSAP())
-    .add(performance(), '-=1')
-    .add(compatibility(), '-=0.5')
-    .add(transforms(), '-=3.6')
-    .add(animateAnything(), '-=0.5')
-    .add(control(), '-=0.5')
-    .add(newStandard());
+      .add(performance(), '-=1')
+      .add(compatibility(), '-=0.5')
+      .add(transforms(), '-=3.6')
+      .add(animateAnything(), '-=0.5')
+      .add(control(), '-=0.5')
+      .add(newStandard());
+
+    add(master);
   }
 
   render() {
@@ -262,21 +269,21 @@ export default class Example2 extends PureComponent {
         <div id="featureBox" />
 
         <div
-          style="position:relative; width:936px; height:0px; overflow:visible; z-index:20;"
+          style={{ position: 'relative', width: '936px', height: 0, overflow: 'visible', zIndex: 20 }}
           id="violator"
         >
           <img
             src="http://greensock.com/_img/HTML5_corner_banner.png"
-            style="position:absolute; top:-5px; right:-5px;"
+            style={{ position: 'absolute', top: '-5px', right: '-5px' }}
             alt="HTML5"
           />
         </div>
 
-        <div class="feature" id="featureAnimation">
-          <div id="featureBackground" style="pointer-events:none;" />
-          <div class="featureTextWhite" id="whyGSAP">Why GSAP?</div>
-          <div class="featureTextGreen" id="performance">Performance</div>
-          <div class="featureTextWhite" id="compatibility">Compatibility</div>
+        <div className="feature" id="featureAnimation">
+          <div id="featureBackground" style={{ pointerEvents: 'none' }} />
+          <div className="featureTextWhite" id="whyGSAP">Why GSAP?</div>
+          <div className="featureTextGreen" id="performance">Performance</div>
+          <div className="featureTextWhite" id="compatibility">Compatibility</div>
 
           <div id="browserIcons">
             <img src="http://greensock.com/_img/browser-chrome-big.png" width="82" height="80" />
@@ -286,24 +293,24 @@ export default class Example2 extends PureComponent {
             <img src="http://greensock.com/_img/browser-opera-big.png" width="69" height="75" />
           </div>
 
-          <div class="featureTextMinor" id="fallDown">Other tools fall down in older browsers, but GSAP is remarkably compatible.</div>
-          <img id="anythingIcon" src="http://greensock.com/_img/animate-anything.png" width="102" height="108" style="position:absolute; top:50px; left:143px; display:block;" />
-          <div id="transformBox" style="background-color:#91e600; width:130px; height:130px; position:absolute; top:40px; left:100px;" />
-          <div class="featureTextWhite" id="transform" style="font-size:34px; width:640px; text-align:left; left:270px; top:80px; line-height:36px;">Scale, rotate & move independently</div>
-          <div class="featureTextWhite" id="transformSub" style="font-size:16px; width:420px; text-align:left; left:270px; top:122px; color:#CCCCCC;">(impossible with CSS animations/transitions)</div>
-          <div class="featureTextWhite" id="anything" style="width:620px; text-align:left; left:302px; top:63px;">XNJYHQLJYQEW</div>
-          <div class="featureTextWhite" id="anythingSub" style="font-size:16px; width:390px; text-align:left; left:300px; top:122px; color:#CCCCCC;">CSS, SVG, canvas libraries, colors, beziers, etc.</div>
-          <div class="featureTextWhite" id="control" style="text-align: left; top:64px; left:130px;">Total control</div>
-          <div class="featureTextWhite" id="controlSub" style="font-size:16px; text-align:left; left:130px; top:122px; color:#CCCCCC;">pause(), play(), reverse(), or timeScale() any tween or sequence.</div>
-          <div class="featureTextWhite" id="GSAP" style="top:60px;">GSAP</div>
-          <div class="featureTextMinor" id="newStandardText" style="top:125px; text-align: center; width: 936px;">The new standard for HTML5 animation</div>
+          <div className="featureTextMinor" id="fallDown">Other tools fall down in older browsers, but GSAP is remarkably compatible.</div>
+          <img id="anythingIcon" src="http://greensock.com/_img/animate-anything.png" width="102" height="108" style={{ position: 'absolute', top: '50px', left: '143px', display: 'block' }} />
+          <div id="transformBox" style={{ backgroundColor: '#91e600', width: '130px', height: '130px', position: 'absolute', top: '40px', left:'100px' }} />
+          <div className="featureTextWhite" id="transform" style={{ fontSize: '34px', width: '640px', textAlign: 'left', left: '270px', top: '80px', lineHeight: '36px' }}>Scale, rotate & move independently</div>
+          <div className="featureTextWhite" id="transformSub" style={{ fontSize: '16px', width: '420px', textAlign: 'left', left: '270px', top: '122px', color: '#CCCCCC' }}>(impossible with CSS animations/transitions)</div>
+          <div className="featureTextWhite" id="anything" style={{ width: '620px', textAlign: 'left', left: '302px', top:'63px' }}>XNJYHQLJYQEW</div>
+          <div className="featureTextWhite" id="anythingSub" style={{ fontSize: '16px', width: '390px', textAlign: 'left', left: '300px', top: '122px', color: '#CCCCCC' }}>CSS, SVG, canvas libraries, colors, beziers, etc.</div>
+          <div className="featureTextWhite" id="control" style={{ textAlign: 'left', top: '64px', left: '130px' }}>Total control</div>
+          <div className="featureTextWhite" id="controlSub" style={{ fontSize: '16px', textAlign: 'left', left: '130px', top: '122px', color: '#CCCCCC' }}>pause(), play(), reverse(), or timeScale() any tween or sequence.</div>
+          <div className="featureTextWhite" id="GSAP" style={{ top: '60px' }}>GSAP</div>
+          <div className="featureTextMinor" id="newStandardText" style={{ top: '125px', textAlign: 'center', width: '936px' }}>The new standard for HTML5 animation</div>
 
-          <div id="featureClick" style="position:absolute; width:936px; height:220px;">
+          <div id="featureClick" style={{ position: 'absolute', width: '936px', height: '220px' }}>
             <img src="http://greensock.com/_img/blank.gif" width="936" height="220" />
           </div>
 
-          <div id="replay" style="text-align:right; position:absolute; left:825px; top:190px; cursor:pointer; color:#999999; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif; font-size:12px; width:100px; visibility:hidden;">
-            replay <img id="replayIcon" src="http://greensock.com/_img/codepen/allDevicesBanner/replay.png" width="19" height="19" style="margin-left:2px; vertical-align: middle;" />
+          <div id="replay" style={{ textAlign: 'right', position: 'absolute', left: '825px', top: '190px', cursor: 'pointer', color: '#999999', fontSize: '12px', width: '100px', visibility: 'hidden' }}>
+            replay <img id="replayIcon" src="http://greensock.com/_img/codepen/allDevicesBanner/replay.png" width="19" height="19" style={{ marginLeft: '2px', verticalAlign: 'middle' }} />
           </div>
 
           <div id="ctrl_slider" />
