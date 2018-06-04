@@ -7,7 +7,7 @@ import './Example1.css';
 export default class Example1 extends PureComponent {
 
   componentDidMount() {
-    this.animate();
+    setTimeout(this.animate);
   }
 
   animate = () => {

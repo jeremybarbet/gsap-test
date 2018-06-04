@@ -260,7 +260,11 @@ export default class Example2 extends PureComponent {
       .add(control(), '-=0.5')
       .add(newStandard());
 
-    add(master);
+    this.disposer = add(master);
+  }
+
+  componentWillUnmount() {
+    this.disposer();
   }
 
   render() {
