@@ -5,7 +5,7 @@ import { add } from 'gsap-tools';
 export default class Example1 extends PureComponent {
 
   componentDidMount() {
-    setTimeout(this.animate);
+    this.animate();
   }
 
   animate = () => {
