@@ -1,0 +1,11 @@
+.nav {
+  display: flex;
+
+  padding: 20px 0;
+
+  list-style: none;
+}
+
+.nav__item {
+  margin-right: 18px;
+}

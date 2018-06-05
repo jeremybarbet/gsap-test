@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 import { TimelineLite } from 'gsap';
 import { add } from 'gsap-tools';
 
-import './Example1.css';
-
 export default class Example1 extends PureComponent {
 
   componentDidMount() {
@@ -11,7 +9,7 @@ export default class Example1 extends PureComponent {
   }
 
   animate = () => {
-    const tl = new TimelineLite({ id: 'main', paused: false });
+    const tl = new TimelineLite({ id: 'main' });
     const t1 = new TimelineLite({ id: 'child1' });
     const t2 = new TimelineLite({ id: 'child2' });
     const t3 = new TimelineLite({ id: 'child3' });
@@ -50,7 +48,10 @@ export default class Example1 extends PureComponent {
 
   render() {
     return (
-      <div className="exemple1">
+      <div>
+        <h2>Example 1</h2>
+        <h3>One main TimelineLite to wrap 5 childs TimelineLite</h3>
+
         <div className="box blue" />
         <div id="id-1" className="box red" />
         <div className="box green" />
