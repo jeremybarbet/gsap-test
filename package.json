@@ -1,12 +1,14 @@
 {
   "name": "test-gsap",
   "version": "0.1.0",
+  "homepage": "https://jeremdsgn.github.io/gsap-test/",
   "private": true,
   "devDependencies": {
+    "gh-pages": "1.1.0",
     "react-scripts": "1.1.4"
   },
   "dependencies": {
-    "gsap": "^2.0.0",
+    "gsap": "^2.0.1",
     "gsap-tools": "^1.0.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
@@ -16,6 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
