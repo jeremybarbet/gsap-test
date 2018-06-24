@@ -11,6 +11,18 @@ body {
   height: calc(100vh - 60px);
 }
 
+.buttons {
+  margin-bottom: 40px;
+}
+
+.group {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-right: 10px;
+}
+
 .box {
   position: relative;
 
